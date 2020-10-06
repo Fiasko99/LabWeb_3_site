@@ -21,7 +21,7 @@
     <footer>
       <div class="text-center pt-2">
         <!-- GitHub URL: https://github.com/Fiasko99 -->
-        <span class="font-weight-bold">GitHub hueta: </span>
+        <span class="font-weight-bold">GitHub: </span>
         <a href="https://github.com/Fiasko99" target="_blank" data-title="Личный гитхаб автора" class="a-response"><img src="./assets/githubicon.svg" alt="ico" class="footer-icon"></a>
       </div>
     </footer>
