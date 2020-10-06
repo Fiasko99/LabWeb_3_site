@@ -12,26 +12,16 @@
             добавления, по пользователю), скачать файл.
         </p>
     </transition> 
-    <div class="border border-info p-2 ">
+    <div class="border border-info p-2 text-center">
         <h2 class="h2 text-center">Почему мы? </h2>
-        <ul class="elem-li">
-            <li>
-                Самый быстрый ресурс для передачи файлов! 
-                <img src="" alt="">
-            </li>
-            <li>
-                Надежность передачи гарантируется!
-                <img src="" alt="">
-            </li>
-            <li>
-                Структурированная система древа передачи информации!
-                <img src="" alt="">
-            </li>
-            <li>
-                Открытый исходный код! 
-                <img src="" alt="">
-            </li>
-        </ul>
+        <div class="row elem-li">
+            <div class="col-6-lg text-center">
+                <span>Самый быстрый ресурс для передачи файлов!</span>
+            </div>
+            <div class="col-6-lg">
+                <span>Самый быстрый ресурс для передачи файлов!</span>
+            </div>
+        </div>
     </div>
     <div class="mt-4 div-elem text-center">
         <transition name="slide-fade" class="w-100 d-flex justify-content-center">
@@ -88,7 +78,7 @@
   transform: translateX(10px);
   opacity: 0;
 }
-.elem-li li:hover {
+.elem-li span:hover {
     font-size: 120%;
     cursor: default;
 }
