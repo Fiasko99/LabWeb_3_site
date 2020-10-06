@@ -36,7 +36,7 @@
                 </div>
                 <div class="c-both m-2 border border-grey p-2 rounded-lg" v-if="textMessage">
                     <label for="exampleFormControlFile1" v-if="textMessage" class="font-weight-bold d-block">Выберите файл для передачи</label>
-                    <input type="file" id="files" ref="files" v-if="textMessage" @change="handleFileUpload()"> file: {{files}}
+                    <input type="file" id="files" ref="files" v-if="textMessage" @change="handleFileUpload()">
                 </div>
                 <div class="c-both m-2">
                     <button class="btn btn-success" v-if="files" @click="addFile = !addFile">Отправить</button>
