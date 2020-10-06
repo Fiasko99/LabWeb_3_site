@@ -1,0 +1,25 @@
+{
+	"admins": [{
+		"id_admin": 1,
+		"login": "login",
+		"password": "password",
+		"role": 1
+	}],
+
+	"roles": [{
+			"id_role": 1,
+			"name": "admin"
+		},
+		{
+			"id_role": 1,
+			"name": "super-admin"
+		}
+	],
+	"users": [{
+		"id_user": 1,
+		"login": "user1",
+		"password": "password1"
+	}]
+}
+
+
