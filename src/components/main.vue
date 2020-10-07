@@ -16,21 +16,21 @@
         <div class="border border-info p-2 text-center">
             <h2 class="h2 text-center pb-4">Почему мы?</h2>
             <div class="row elem-li m-4 pb-4">
-                <div class="col-lg-6" data-title="Удобнее только у it-гигантов">
+                <div class="col-6" data-title="Удобнее только у it-гигантов">
                     <p>Удобство</p>
                     <img src="../assets/conv-ico.svg" alt="" class="w-25">
                 </div>
-                <div class="col-lg-6" data-title="Данные шифруются">
+                <div class="col-6" data-title="Данные шифруются">
                     <p>Конфиденциальность</p>
                     <img src="../assets/confid-ico.svg" alt="" class="w-25">
                 </div>
             </div>
             <div class="row elem-li m-4">
-                <div class="col-lg-6" data-title="Полный контроль на своими файлами">
+                <div class="col-6" data-title="Полный контроль на своими файлами">
                     <p>Надёжность</p>
                     <img src="../assets/lock-ico.svg" alt="" class="w-25">
                 </div>
-                <div class="col-lg-6" data-title="Функционал необходимый всем">
+                <div class="col-6" data-title="Функционал необходимый всем">
                     <p>Актуальность</p>
                     <img src="../assets/actual-ico.svg" alt="" class="w-25">
                 </div>
@@ -38,21 +38,21 @@
         </div>
         <div class="mt-4 div-elem text-center">
             <transition name="slide-fade" class="w-100 d-flex justify-content-center">
-                <button class="btn btn-success" @click="addFile = !addFile" v-if="!addFile">Добавить файл</button>
+                <button class="btn btn-success" @click="checkAuth()" v-if="!addFile">Добавить файл</button>
                 <div v-if="addFile">
                     <div class="c-both m-2">
                         <button class="btn btn-outline-primary" @click="addFile = !addFile">Назад</button>
                     </div>
                     <div class="c-both m-2 form-group text-center">
                         <label for="textMessage" class="float-left ml-4 font-weight-bold">Сообщение</label>
-                        <input type="text" id="textMessage" class="form-control" placeholder="Текст" v-model="textMessage">
+                        <input type="text" id="textMessage" class="form-control" placeholder="Текст к загружаемому файлу" v-model="textMessage">
                     </div>
                     <div class="c-both m-2 border border-grey p-2 rounded-lg" v-if="textMessage">
                         <label for="exampleFormControlFile1" v-if="textMessage" class="font-weight-bold d-block">Выберите файл для передачи</label>
-                        <input type="file" id="files" ref="files" v-if="textMessage" @change="handleFileUpload()">
+                        <input type="file" id="file" ref="file" v-if="textMessage" @change="handleFileUpload()">
                     </div>
                     <div class="c-both m-2">
-                        <button class="btn btn-success" v-if="files" @click="addFile = !addFile">Отправить</button>
+                        <button class="btn btn-success" v-if="file" @click="submitFile()">Отправить</button>
                     </div>
                 </div>
             </transition>
@@ -70,12 +70,33 @@
         passwordVisible: false,
         textMessage: '',
         private: false,
-        files: '',
+        file: '',
       };
     },
     methods: {
+        checkAuth() {
+            this.addFile = !this.addFile;
+        },
         handleFileUpload(){
-            this.files = this.$refs.files.files[0];
+            this.file = this.$refs.file.files[0];
+        },
+        submitFile() {
+            let formData = new FormData();
+            formData.append('file', this.file);
+            this.$axios.post(
+                '/single-file',
+                formData,
+                {
+                    headers: {
+                        'Content-Type': 'multipart/form-data'
+                    }
+                }
+            ).then(function(){
+                alert("Файл сохранён!")
+                this.addFile = !this.addFile;
+            }).catch(function(){
+                alert("Непредвиденная ошибка!")
+            });
         }
     }
 };
@@ -119,7 +140,7 @@
 .c-both {
     clear: both;
 }
-.row .col-lg-6 {
+.row .col-6 {
     padding: 5px;
 }
 </style>
