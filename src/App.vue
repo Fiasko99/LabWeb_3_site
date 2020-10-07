@@ -49,8 +49,7 @@ footer {
   min-height: 32px !important;
 }
 .footer-icon:hover {
-  border-radius: 16px;
-  border: 3px ridge black;
+  padding: 3px;
 }
 .a-response {
   display: inline-block; 
