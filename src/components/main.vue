@@ -47,9 +47,9 @@
                         <label for="textMessage" class="float-left ml-4 font-weight-bold">Сообщение</label>
                         <input type="text" id="textMessage" class="form-control" placeholder="Текст к загружаемому файлу" v-model="textMessage">
                     </div>
-                    <div class="c-both m-2 border border-grey p-2 rounded-lg" v-if="textMessage">
-                        <label for="exampleFormControlFile1" v-if="textMessage" class="font-weight-bold d-block">Выберите файл для передачи</label>
-                        <input type="file" id="file" ref="file" v-if="textMessage" @change="handleFileUpload()">
+                    <div class="c-both m-2 p-2 custom-file" v-if="textMessage">
+                        <input type="file" id="file" ref="file" v-if="textMessage" @change="handleFileUpload()" class="custom-file-input">
+                        <label for="file" v-if="textMessage" class="custom-file-label">Выберите файл для передачи</label>
                     </div>
                     <div class="c-both m-2">
                         <button class="btn btn-success" v-if="file" @click="submitFile()">Отправить</button>
