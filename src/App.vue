@@ -61,11 +61,11 @@ footer {
   position: absolute;
   left: 20%;
   top: -64px;
-  z-index: 1; /* Отображаем подсказку поверх других элементов */
-  background: rgba(255,255,230,0.9); /* Полупрозрачный цвет фона */
-  font-family: Arial, sans-serif; /* Гарнитура шрифта */
-  font-size: 11px; /* Размер текста подсказки */
-  padding: 5px 10px; /* Поля */
-  border: 1px solid #333; /* Параметры рамки */
+  z-index: 1; 
+  background: rgba(255,255,230,0.9);
+  font-size: 12px; 
+  padding: 5px 10px; 
+  border: 1px solid #333; 
+  border-radius: 5px;
 }
 </style>
