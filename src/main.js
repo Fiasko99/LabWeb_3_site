@@ -4,11 +4,12 @@ import axios from 'axios'
 import VueRouter from 'vue-router'
 import VueRosource from 'vue-resource'
 import Main from './components/main.vue'
+import '../public/php/getFile.php'
 
 Vue.config.productionTip = false;
 Vue.use(VueRouter);
 Vue.use(VueRosource);
-Vue.prototype.$axios = axios
+Vue.prototype.$axios = axios;
 
 const router = new VueRouter({
   linkActiveClass: 'active',

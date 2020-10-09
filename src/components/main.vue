@@ -37,7 +37,7 @@
             </div>
         </div>
         <div class="mt-4 div-elem text-center">
-            <transition name="slide-fade" class="w-100 d-flex justify-content-center">
+            <!-- <transition name="slide-fade" class="w-100 d-flex justify-content-center">
                 <button class="btn btn-success" @click="checkAuth()" v-if="!addFile">Добавить файл</button>
                 <div v-if="addFile">
                     <div class="c-both m-2">
@@ -55,13 +55,20 @@
                         <button class="btn btn-success" v-if="file" @click="submitFile()">Отправить</button>
                     </div>
                 </div>
-            </transition>
+            </transition> -->
+            <form action="../php/getFile.php" method="post" enctype="multipart/form-data">
+                <p>Изображения:
+                    <input type="file" name="file[]" />
+                    <input type="submit" value="Отправить" />
+                </p>
+            </form>
         </div>
     </div>
   </div>
 </template>
 
 <script>
+
  export default {
     data() {
       return {
@@ -84,11 +91,8 @@
             let formData = new FormData();
             formData.append('file', this.file);
             this.$axios.post(
-                '/php/upload_action.php',
-                formData,
-                {
-                    file: formData
-                }
+                '../php/getFile.php',
+                formData
             ).then(function(){
                 alert("Файл сохранён!")
                 this.addFile = !this.addFile;
