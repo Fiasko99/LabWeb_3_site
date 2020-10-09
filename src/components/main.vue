@@ -84,12 +84,10 @@
             let formData = new FormData();
             formData.append('file', this.file);
             this.$axios.post(
-                '/single-file',
+                '/php/upload_action.php',
                 formData,
                 {
-                    headers: {
-                        'Content-Type': 'multipart/form-data'
-                    }
+                    file: formData
                 }
             ).then(function(){
                 alert("Файл сохранён!")
