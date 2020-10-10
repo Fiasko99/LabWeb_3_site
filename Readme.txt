@@ -6,3 +6,5 @@ ajaxfile.php make in {
 }
 
 xampp install important!
+move folder in xampp/htdocs 
+url localhost/name_project
