@@ -1,7 +1,7 @@
 <!doctype html>
 <html>
 	<head lang="ru">
-		<title>How to upload file with Vue.js and PHP</title>
+		<title>LabWeb_3</title>
 		<meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
 		<meta name="viewport" content="width=device-width, initial-scale=1.0">
 		<script src="vue.js"></script>
@@ -174,10 +174,11 @@
 							  </form>
 						</transition>
 					</div>
-					
 					<div class="pt-4 text-center" v-if="login">
-						<button class="btn btn-success float-left" @click="uno_addFile()" v-if="!addFile">Добавить файл</button>
-						<button class="btn btn-outline-primary float-ritght" @click="exit()" v-if="!addFile">Выйти из профиля</button>
+						<div class="row-fluid">
+							<div class="col"><button class="btn btn-success float-left" @click="uno_addFile()" v-if="!addFile">Добавить файл</button></div>
+							<div class="col"><button class="btn btn-outline-primary float-ritght" @click="reverseLogin()" v-if="!addFile">Выйти из профиля</button></div>
+						</div>
 						<transition name="slide-fade">
 							<div v-if="addFile" >
 								<div class="c-both m-2">
@@ -194,14 +195,18 @@
 								<div class="form-check">
 									<input type="checkbox" class="form-check-input" id="privateCheck" v-model="status">
 									<label class="form-check-label" for="privateCheck">Сделать приватным</label>
-								  </div>
+								</div>
 								<div class="c-both m-2">
 									<button class="btn btn-success" type="button" @click='uploadFile()' v-if="file">Отправить</button>
 								</div>
 							</div>
 						</transition>
 					</div>
-
+					
+					<H2>Создание папки</H2>
+					<FORM NAME="frm1">
+						<INPUT TYPE="BUTTON" @click="createFolder()" VALUE="Создать папку">
+					</FORM>
 				</div>
 			</main>
 			
@@ -230,23 +235,41 @@
 						
 						
 						formGroup: false,
-						login: null,
+						login: false,
 						regist: false,
 						userLogin: '',
 						userPassword:'',
+						userData: null,
 					}
 				},
 				methods: {
-					uno_addFile() {
+					uno_addFile: function() {
 						this.addFile = !this.addFile;
 					},
-					uno_auth() {
+					uno_auth: function() {
 						this.formGroup = !this.formGroup;
 					},
-					auth() {
+					auth: function() {
+						const self = this;
 						if(!this.regist) {
 							axios.get('http://localhost:3000/person?login=' + this.userLogin +"&password=" + this.userPassword)
-							.then(response => (this.login = response.data[0]["role"]));
+							.then(function(response) {
+								this.userData = response.data;								
+							})
+							.then(function() {
+								if (this.userData[0]) {
+									if (this.userData[0]['role'] === 3) {
+										self.login = !self.login;
+									} else {
+										alert("Access denied")
+									}
+								} else {
+									alert("Not found");
+								}
+							})
+							.catch(function(error) {
+								alert(error);
+							});
 						} else {
 							let newUser = {
 								'login': this.userLogin,
@@ -258,10 +281,10 @@
 							.then(response => (this.login = response.data));
 						}
 					},
-					exit() {
+					reverseLogin: function() {
 						this.login = !this.login;
 					},
-					handleFileUpload(){
+					handleFileUpload: function() {
 						this.file = this.$refs.file.files[0];
 					},
 					uploadFile: function(){
@@ -271,14 +294,13 @@
 						let formData = new FormData();
 						formData.append('file', this.file);
 
-						axios.post('ajaxfile.php', formData,
+						 axios.post('ajaxfile.php', formData,
 						{
 						    headers: {
 						        'Content-Type': 'multipart/form-data'
 						    }
 						})
 						.then(function (response) {
-
 							if(!response.data){
 								alert('File not uploaded.');
 							}else{
@@ -286,9 +308,25 @@
 							}
 						})
 						.catch(function (error) {
-						    console.log(error);
+						    alert(error);
 						});
-						
+					},
+					createFolder: function() {
+						let self = this;
+						axios({
+							method: 'post',
+							headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+							url: 'createF.php',
+							data: self.login
+						})
+						.then(function(response) {
+
+							console.log(response);
+
+						})
+						.catch(function (error) {
+							console.log(error);
+						});
 					}
 				}
 			})
