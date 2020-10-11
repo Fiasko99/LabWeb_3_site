@@ -5,9 +5,10 @@
 		<meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
 		<meta name="viewport" content="width=device-width, initial-scale=1.0">
 		<script src="vue.js"></script>
-		<script src='axios-maste	r/dist/axios.min.js'></script>
+		<script src='axios-master/dist/axios.min.js'></script>
 		<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
 		<link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@1,300&display=swap" rel="stylesheet">
+		
 		<style>
 			* {
 				font-family: 'Roboto', sans-serif;
@@ -43,10 +44,10 @@
 				border-radius: 5px;
 			}
 			.slide-fade-enter-active {
-				transition: all .3s ease;
+				transition: all .8s ease;
 			}
 			.slide-fade-leave-active {
-				transition: all .8s cubic-bezier(1.0, 0.5, 0.8, 1.0);
+				transition: all .4s cubic-bezier(1.0, 0.5, 0.8, 1.0);
 			}
 			.slide-fade-enter, .slide-fade-leave-to {
 				transform: translateX(10px);
@@ -69,7 +70,7 @@
 				top: -32px;
 				z-index: 1; 
 				background: rgba(0,0,0,0.1);
-				font-size: 14px; 
+				font-size: 10px; 
 				font-weight: bold;
 				padding: 5px 10px; 
 				border-top-left-radius: 5px;
@@ -87,65 +88,130 @@
 	<body>
 	
 		<div id='myapp'>
-			<div class="container">
-				<button @click="instruction = !instruction" class="btn btn-info w-100 rounded-0">
-					Руководство пользователя
-				</button>
-				<transition name="slide-fade" class="w-100">
-					<p v-if="instruction" class="text-info m-2">
-						Функции пользователя: загружать файл, настраивать доступ к файлу
-						(доступен только пользователю, который добавил файл, или доступен
-						всем), просматривать список доступных файлов, удалить файл,
-						скрыть/отобразить файл, фильтровать файлы (по расширению, по дате
-						добавления, по пользователю), скачать файл.
-					</p>
-				</transition> 
-				<div class="border border-info p-2 text-center">
-					<h2 class="h2 text-center pb-4">Почему мы?</h2>
-					<div class="row elem-li m-4 pb-4">
-						<div class="col-6" data-title="Удобнее только у it-гигантов">
-							<p>Удобство</p>
-							<img src="./assets/conv-ico.svg" alt="" class="w-25">
-						</div>
-						<div class="col-6" data-title="Данные шифруются">
-							<p>Конфиденциальность</p>
-							<img src="./assets/confid-ico.svg" alt="" class="w-25">
+			
+			<header>
+				<nav class="navbar navbar-expand-xl navbar-dark bg-dark">
+					<router-link class="navbar-brand" to="/">
+					  	<img src="./assets/logo.svg" alt="" class="w-25 img-fluid">
+					</router-link>
+					<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation"  v-if="login">
+					  	<span	span class="navbar-toggler-icon"></span>
+					</button>
+					<div class="collapse navbar-collapse justify-content-end" id="navbarNavAltMarkup" v-if="login">
+						<div class="navbar-nav">
+							<router-link class="nav-item nav-link" to="/profile">Профиль</router-link>
+							<router-link class="nav-item nav-link" to="/files">Файлы</router-link>
+							<router-link class="nav-item nav-link" to="/setting">Настройки</router-link>
 						</div>
 					</div>
-					<div class="row elem-li m-4">
-						<div class="col-6" data-title="Полный контроль на своими файлами">
-							<p>Надёжность</p>
-							<img src="./assets/lock-ico.svg" alt="" class="w-25">
-						</div>
-						<div class="col-6" data-title="Функционал необходимый всем">
-							<p>Актуальность</p>
-							<img src="./assets/actual-ico.svg" alt="" class="w-25">
-						</div>
-					</div>
-				</div>
-				<div class="mt-4 div-elem text-center">
-					<transition name="slide-fade" class="w-100 d-flex justify-content-center">
-						<button class="btn btn-success" @click="checkAuth()" v-if="!addFile">Добавить файл</button>
-						<div v-if="addFile">
-							<div class="c-both m-2">
-								<button class="btn btn-outline-primary" @click="addFile = !addFile">Назад</button>
-							</div>
-							<div class="c-both m-2 form-group text-center">
-								<label for="textMessage" class="float-left ml-4 font-weight-bold">Сообщение</label>
-								<input type="text" id="textMessage" class="form-control" placeholder="Текст к загружаемому файлу" v-model="textMessage">
-							</div>
-							<div class="c-both m-2 p-2 custom-file" v-if="textMessage">
-								<input type="file" id="file" ref="file" v-if="textMessage" @change="handleFileUpload()" class="custom-file-input">
-								<label for="file" v-if="textMessage" class="custom-file-label">Выберите файл для передачи</label>
-							</div>
-							<div class="c-both m-2">
-								<button class="btn btn-success" type="button" @click='uploadFile()'>Отправить</button>
-							</div>
-						</div>
-					</transition>
-				</div>
-			</div>
+				</nav>
+			</header>
 
+			<main>
+				<div class="container">
+					<div v-if="!login">
+						<button @click="instruction = !instruction" class="btn btn-info w-100 rounded-0">
+							Посмтреть возможности сайта
+						</button>
+						<transition name="slide-fade">
+							<div v-if="instruction" class="text-info p-2 border-left border-right border-info">
+								<p>Функции пользователя: </p>
+								<ul>
+									<li>загружать файл;</li>
+									<li>настраивать доступ к файлу;</li>
+									<li>просматривать список доступных файлов;</li>
+									<li>удалить файл;</li>
+									<li>скрыть/отобразить файл;</li>
+									<li>фильтровать файлы;</li>
+									<li>скачать файл.</li>
+								</ul>
+							</div>
+						</transition> 
+					</div>
+					<div class="border border-top-0 border-info p-2 text-center" v-if="!login">
+						<h2 class="h2 text-center pb-4">Почему мы?</h2>
+						<div class="row elem-li m-4 pb-4">
+							<div class="col-6" data-title="Удобнее только у it-гигантов">
+								<p>Удобство</p>
+								<img src="./assets/conv-ico.svg" alt="" class="w-25">
+							</div>
+							<div class="col-6" data-title="Данные шифруются">
+								<p>Конфиденциальность</p>
+								<img src="./assets/confid-ico.svg" alt="" class="w-25">
+							</div>
+						</div>
+						<div class="row elem-li m-4">
+							<div class="col-6" data-title="Полный контроль на своими файлами">
+								<p>Надёжность</p>
+								<img src="./assets/lock-ico.svg" alt="" class="w-25">
+							</div>
+							<div class="col-6" data-title="Функционал необходимый всем">
+								<p>Актуальность</p>
+								<img src="./assets/actual-ico.svg" alt="" class="w-25">
+							</div>
+						</div>
+					</div>
+
+					
+					<div class="mt-4 text-center" v-if="!login">
+						<button class="btn btn-primary" @click="uno_auth()" v-if="!formGroup">Войти</button>
+						<transition name="slide-fade">
+							<form v-if="formGroup" class="mt-2">
+								<div class="form-group">
+								  <label for="login">Login</label>
+								  <input type="text" class="form-control" id="login" aria-describedby="loginHelp" value="nif-nif" v-model="userLogin" autocomplete="off">
+								  <small id="loginHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>
+								</div>
+								<div class="form-group">
+								  <label for="password">Password</label>
+								  <input type="password" class="form-control" id="password" value="wolf" v-model="userPassword" autocomplete="off">
+								</div>
+								<div class="form-check">
+								  <input type="checkbox" class="form-check-input" id="registCheck" v-model="regist">
+								  <label class="form-check-label" for="registCheck">Зарегистрироваться</label>
+								</div>
+								<button type="button" class="btn btn-primary" @click="auth()">Вход</button>
+							  </form>
+						</transition>
+					</div>
+					
+					<div class="pt-4 text-center" v-if="login">
+						<button class="btn btn-success float-left" @click="uno_addFile()" v-if="!addFile">Добавить файл</button>
+						<button class="btn btn-outline-primary float-ritght" @click="exit()" v-if="!addFile">Выйти из профиля</button>
+						<transition name="slide-fade">
+							<div v-if="addFile" >
+								<div class="c-both m-2">
+									<button class="btn btn-outline-primary" @click="uno_addFile()">Назад</button>
+								</div>
+								<div class="c-both m-2 form-group text-center">
+									<label for="textMessage" class="float-left ml-4 font-weight-bold">Сообщение</label>
+									<input type="text" id="textMessage" class="form-control" placeholder="Текст к загружаемому файлу" v-model="textMessage">
+								</div>
+								<div class="custom-file c-both m-2 p-2" v-if="textMessage">
+									<input type="file" id="file" ref="file" v-if="textMessage" @change="handleFileUpload()" class="custom-file-input">
+									<label for="file" v-if="textMessage" class="custom-file-label">Выберите файл для передачи</label>
+								</div>
+								<div class="form-check">
+									<input type="checkbox" class="form-check-input" id="privateCheck" v-model="status">
+									<label class="form-check-label" for="privateCheck">Сделать приватным</label>
+								  </div>
+								<div class="c-both m-2">
+									<button class="btn btn-success" type="button" @click='uploadFile()' v-if="file">Отправить</button>
+								</div>
+							</div>
+						</transition>
+					</div>
+
+				</div>
+			</main>
+			
+			<footer>
+				<div class="text-center pt-2">
+					<!-- GitHub URL: https://github.com/Fiasko99 -->
+					<span class="font-weight-bold">GitHub: </span>
+					<a href="https://github.com/Fiasko99" target="_blank" data-title="Личный гитхаб автора" class="a-response"><img src="./assets/githubicon.svg" alt="ico" class="footer-icon"></a>
+				</div>
+			</footer>
 			
 		</div>
 
@@ -153,17 +219,47 @@
 		<script>
 			var app = new Vue({
 				el: '#myapp',
-				data: {
-					addFile: false,
-					instruction: false,
-					passwordVisible: false,
-					textMessage: '',
-					private: false,
-					file: '',
+				data() {
+					return {
+						instruction: false,
+
+						addFile: false,
+						status: false,
+						textMessage: '',
+						file: '',
+						
+						
+						formGroup: false,
+						login: null,
+						regist: false,
+						userLogin: '',
+						userPassword:'',
+					}
 				},
 				methods: {
-					checkAuth() {
+					uno_addFile() {
 						this.addFile = !this.addFile;
+					},
+					uno_auth() {
+						this.formGroup = !this.formGroup;
+					},
+					auth() {
+						if(!this.regist) {
+							axios.get('http://localhost:3000/person?login=' + this.userLogin +"&password=" + this.userPassword)
+							.then(response => (this.login = response.data[0]["role"]));
+						} else {
+							let newUser = {
+								'login': this.userLogin,
+								'password': this.userPassword,
+								'role': 3
+							}
+
+							axios.post('http://localhost:3000/person', newUser)
+							.then(response => (this.login = response.data));
+						}
+					},
+					exit() {
+						this.login = !this.login;
 					},
 					handleFileUpload(){
 						this.file = this.$refs.file.files[0];
@@ -186,9 +282,8 @@
 							if(!response.data){
 								alert('File not uploaded.');
 							}else{
-								alert('File uploaded successfully.');
+								alert('File not uploaded.');
 							}
-							
 						})
 						.catch(function (error) {
 						    console.log(error);

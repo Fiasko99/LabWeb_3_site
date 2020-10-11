@@ -1,0 +1,96 @@
+{
+  "person": [
+    {
+      "id": 1,
+      "login": "login",
+      "password": "password",
+      "role": 1
+    },
+    {
+      "id": 2,
+      "login": "amrchnk",
+      "password": "password",
+      "role": 1
+    },
+    {
+      "id": 3,
+      "login": "login1",
+      "password": "password1",
+      "role": 4
+    },
+    {
+      "id": 5,
+      "login": "admin",
+      "password": "111",
+      "role": 2
+    },
+    {
+      "id": 6,
+      "login": "test",
+      "password": "222",
+      "role": 2
+    },
+    {
+      "login": "joj",
+      "password": "joj",
+      "role": 2,
+      "id": 7
+    },
+    {
+      "login": "admin2",
+      "password": "111",
+      "role": 2,
+      "id": 8
+    },
+    {
+      "id": 9,
+      "login": "joj2",
+      "password": "111",
+      "role": 4
+    },
+    {
+      "id": 10,
+      "login": "lol",
+      "password": "111",
+      "role": 2
+    },
+    {
+      "id": 11,
+      "login": "nif-nif",
+      "password": "wolf",
+      "role": 3
+    },
+    {
+      "login": "naf-naf",
+      "password": "wolf",
+      "role": 3,
+      "id": 12
+    }
+  ],
+  "roles": [
+    {
+      "id": 2,
+      "name": "admin"
+    },
+    {
+      "id": 1,
+      "name": "super-admin"
+    },
+    {
+      "id": 3,
+      "name": "user"
+    },
+    {
+      "id": 4,
+      "name": "locked"
+    }
+  ],
+  "files": [
+    {
+      "id_file": 1,
+      "name_file": "load_cat.gif",
+      "status_file": "public",
+      "id_user": 11
+    }
+  ]
+}
