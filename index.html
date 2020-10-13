@@ -202,11 +202,6 @@
 							</div>
 						</transition>
 					</div>
-					
-					<H2>Создание папки</H2>
-					<FORM NAME="frm1">
-						<INPUT TYPE="BUTTON" @click="createFolder()" VALUE="Создать папку">
-					</FORM>
 				</div>
 			</main>
 			
@@ -243,6 +238,9 @@
 					}
 				},
 				methods: {
+					test: function () { 
+						this.reverseLogin();
+					},
 					uno_addFile: function() {
 						this.addFile = !this.addFile;
 					},
@@ -271,14 +269,7 @@
 								alert(error);
 							});
 						} else {
-							let newUser = {
-								'login': this.userLogin,
-								'password': this.userPassword,
-								'role': 3
-							}
-
-							axios.post('http://localhost:3000/person', newUser)
-							.then(response => (this.login = response.data));
+							this.createFolder();
 						}
 					},
 					reverseLogin: function() {
@@ -313,20 +304,36 @@
 					},
 					createFolder: function() {
 						let self = this;
-						axios({
-							method: 'post',
-							headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-							url: 'createF.php',
-							data: self.login
-						})
-						.then(function(response) {
+						if (self.userLogin !== '') {
+							axios({
+								method: 'post',
+								headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+								url: 'createF.php',
+								data: self.userLogin
+							})
+							.then(function(response) {
+								if(response.data === 1) {
+									let newUser = {
+										'login': self.userLogin,
+										'password': self.userPassword,
+										'role': 3
+									}
 
-							console.log(response);
-
-						})
-						.catch(function (error) {
-							console.log(error);
-						});
+									axios.post('http://localhost:3000/person', newUser)
+									.then(response => (self.login = response.data))
+									.then(function() {
+										alert("Пользователь создан");
+									});
+								} else {
+									alert("Пользователь уже существует");
+								}
+							})
+							.catch(function (error) {
+								alert(error);
+							});
+						} else {
+							alert("Login field is empty")
+						}
 					}
 				}
 			})
