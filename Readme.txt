@@ -5,7 +5,7 @@ ajaxfile.php make in {
   Tutorial Link: https://makitweb.com/how-to-upload-file-with-vue-js-and-php/
 }
 
-xampp install important!
-xampp control panel apache start
-move folder in xampp/htdocs 
-url localhost/name_project
+Нужно установить xampp 
+Затем в контроль панели запустить сервер апач
+переместить папку с проектом в xampp/htdocs
+Открыть браузер и ввести ссылку localhost/(наименование проекта)
