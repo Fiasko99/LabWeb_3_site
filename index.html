@@ -31,16 +31,15 @@
 					</button>
 					<div class="collapse navbar-collapse justify-content-end" id="navbarNavAltMarkup" v-if="login">
 						<div class="navbar-nav">
-							<span class="nav-item nav-link">Профили</span>
+							<span class="nav-item nav-link" @click='profiles = !profiles'>Профили</span>
 							<span class="nav-item nav-link">Файлы</span>
-							<span class="nav-item nav-link">Настройки</span>
 						</div>
 					</div>
 				</nav>
 			</header>
 
 			<main>
-				<div class="container">
+				<div class="container" v-if="!profile">
 					<div v-if="!login">
 						<button @click="instruction = !instruction" class="btn btn-info w-100 rounded-0">
 							Посмтреть возможности сайта
@@ -90,17 +89,17 @@
 							<button class="btn btn-primary" @click="uno_auth()" v-if="!formGroup">Войти</button>
 							<form v-if="formGroup" class="mt-2">
 								<div class="form-group">
-								  <label for="login">Login</label>
-								  <input type="text" class="form-control" id="login" aria-describedby="loginHelp" value="nif-nif" v-model="userLogin" autocomplete="off">
-								  <small id="loginHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>
+									<label for="login">Login</label>
+									<input type="text" class="form-control" id="login" aria-describedby="loginHelp" v-model="userLogin" autocomplete="off">
+									<small id="loginHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>
 								</div>
 								<div class="form-group">
-								  <label for="password">Password</label>
-								  <input type="password" class="form-control" id="password" value="wolf" v-model="userPassword" autocomplete="off">
+									<label for="password">Password</label>
+									<input type="password" class="form-control" id="password" v-model="userPassword" autocomplete="off">
 								</div>
 								<div class="form-check">
-								  <input type="checkbox" class="form-check-input" id="registCheck" v-model="regist">
-								  <label class="form-check-label" for="registCheck">Зарегистрироваться</label>
+									<input type="checkbox" class="form-check-input" id="registCheck" v-model="regist">
+									<label class="form-check-label" for="registCheck">Зарегистрироваться</label>
 								</div>
 								<button type="button" class="btn btn-primary" @click="[auth(), getListFileByUser()]">Вход</button>
 							  </form>
@@ -113,11 +112,11 @@
 							<button class="btn btn-success float-left" @click="uno_addFile()" v-if="!addFile">Добавить файл</button>
 							<div v-if="addFile">
 								<div class="c-both m-2">
-									<button class="btn btn-outline-primary" @click="uno_addFile()">Назад</button>
+									<button class="btn btn-outline-primary" @click="[uno_addFile(), getListFileByUser()]">Назад</button>
 								</div>
 								<div class="c-both m-2 form-group text-center">
 									<label for="textMessage" class="float-left ml-4 font-weight-bold">Сообщение</label>
-									<input type="text" id="textMessage" class="form-control" placeholder="Текст к загружаемому файлу" v-model="textMessage">
+									<input type="text" id="textMessage" class="form-control" placeholder="Текст к загружаемому файлу" v-model="textMessage" autocomplete="off">
 								</div>
 								<div class="custom-file c-both m-2 p-2" v-if="textMessage">
 									<input type="file" id="file" ref="file" v-if="textMessage" @change="handleFileUpload()" class="custom-file-input">
@@ -128,7 +127,7 @@
 									<label class="form-check-label" for="privateCheck">Сделать приватным</label>
 								</div>
 								<div class="c-both m-2">
-									<button class="btn btn-success" type="button" @click='[uploadFile(), getListFileByUser()]' v-if="file">Отправить</button>
+									<button class="btn btn-success" type="button" @click='uploadFile()' v-if="file">Отправить</button>
 								</div>
 							</div>
 						</transition>
@@ -143,6 +142,19 @@
 							<button class="btn btn-info m-4" @click="onDelete()" v-if="!addFile" :disabled='isDisabledDelete()'>Удалить</button>
 						</transition>
 						<transition mode="out-in" name="slide-fade">
+							<div v-if="change">
+								<div class="form-check">
+									<label for="fileText">Текст к файлу</label>
+									<input type="text" class="form-control" id="fileText" aria-describedby="textHelp" v-model="newText" autocomplete="off">
+									<small id="loginHelp" class="form-text text-muted">После того, как впишите текст, выберите строку для изменения.</small>
+								</div>
+								<div class="form-check">
+									<input type="checkbox" class="form-check-input" id="changeS" v-model="newStatus">
+									<label class="form-check-label" for="changeS">Сделать приватным</label>
+								</div>
+							</div>
+						</transition>
+						<transition mode="out-in" name="slide-fade">
 							<div class="row custom-border" v-if="!addFile">
 								<div class="col-4">Имя файла</div>
 								<div class="col-4">Статус файла</div>
@@ -150,7 +162,7 @@
 							</div>
 						</transition>
 						<transition-group mode="out-in" name="slide-fade">
-							<div class="row custom-border" v-for="elem in filesList" :key="elem.id" v-if="!addFile" @click="[changeInfo(elem.id), deleteInfo(elem.id)]">
+							<div class="row custom-border" v-for="elem in filesList" :key="elem.id" v-if="!addFile" @click="[changeInfo(elem.id, elem.id_user, elem.name_file), deleteInfo(elem.id, elem.name_file)]">
 								<div class="col-4">{{ elem.name_file }}</div>
 								<div class="col-4">{{ elem.status_file }}</div>
 								<div class="col-4">{{ elem.text }}</div>

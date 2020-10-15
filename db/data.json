@@ -136,27 +136,6 @@
       "id": 3
     },
     {
-      "id_user": 13,
-      "name_file": "cznR7p3NpEw.jpg",
-      "status_file": "public",
-      "text": "text",
-      "id": 4
-    },
-    {
-      "id_user": 13,
-      "name_file": "world-of-warcraft--shadowlands-4k-ro-3840x2400.jpg",
-      "status_file": "public",
-      "text": "daw",
-      "id": 5
-    },
-    {
-      "id_user": 13,
-      "name_file": "cznR7p3NpEw.jpg",
-      "status_file": "private",
-      "text": "daw123",
-      "id": 6
-    },
-    {
       "id_user": 17,
       "name_file": "samurai-girl-smoking-11-4k.jpg",
       "status_file": "private",
@@ -165,10 +144,17 @@
     },
     {
       "id_user": 13,
-      "name_file": "seo-social-web-network-internet_66_icon-icons.com_61546.svg",
+      "name_file": "samurai-girl-smoking-11-4k.jpg",
       "status_file": "public",
-      "text": "pdf",
+      "text": "test",
       "id": 8
+    },
+    {
+      "id_user": 13,
+      "name_file": "0pjwbCIUGCA.jpg",
+      "status_file": "private",
+      "text": "test1",
+      "id": 9
     }
   ]
 }

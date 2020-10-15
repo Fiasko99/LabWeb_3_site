@@ -3,6 +3,7 @@ var app = new Vue({
     data() {
         return {
             instruction: false,
+            profile: false,
 
             addFile: false,
             status: false,
@@ -151,15 +152,44 @@ var app = new Vue({
                 self.filesList = response.data;
             })
         },
-        changeInfo: function(idItem) {
+        changeInfo: function(idItem, idUser, name) {
+            let self = this;
+            newInfo = {
+                "id_user": idUser,
+                "name_file": name,
+                "status_file": self.newStatus ? "private" : "public",
+                "text": self.newText,
+            }
             if(this.change === true) {
-                alert(idItem);
+                axios.put(`http://localhost:3000/files/${idItem}`, newInfo)
+                .then(function() {
+                    self.getListFileByUser()
+                })
             }
         },
-        deleteInfo: function(idItem) {
+        deleteInfo: function(idItem, name) {
+            let self = this;
             if(this.delete === true) {
-                alert(idItem);
+                axios.delete(`http://localhost:3000/files/${idItem}`)
+                .then(function() {
+                    self.deleteFile(name);
+                })
             }
+        },
+        deleteFile: function(name) {
+            let self = this;
+            let login = this.userLogin;
+            axios({
+                method: 'post',
+                headers: { 
+                    'Content-Type': 'application/x-www-form-urlencoded',
+                    'login': login
+                },
+                url: 'deleteF.php',
+                data: name
+            }).then(function() {
+               self.getListFileByUser()
+            })
         },
         isDisabledChange: function(){
             return this.delete;
