@@ -4,8 +4,12 @@
 		<title>LabWeb_3</title>
 		<meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
 		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
 		<script src="vue.js"></script>
 		<script src='axios-master/dist/axios.min.js'></script>
+		<script src="https://unpkg.com/vue-router/dist/vue-router.js"></script>
+
+		<link rel=icon href=/favicon.ico>
 		<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
 		<link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@1,300&display=swap" rel="stylesheet">
 		
@@ -50,7 +54,7 @@
 				transition: all .4s cubic-bezier(1.0, 0.5, 0.8, 1.0);
 			}
 			.slide-fade-enter, .slide-fade-leave-to {
-				transform: translateX(10px);
+				transform: translateX(50px);
 				opacity: 0;
 			}
 			.elem-li div:hover {
@@ -83,6 +87,10 @@
 			.row .col-6 {
 				padding: 5px;
 			}
+			.exit-btn-location {
+				bottom: 49px;
+				right: 0;
+			}
 		</style>
 	</head>
 	<body>
@@ -91,16 +99,16 @@
 			
 			<header>
 				<nav class="navbar navbar-expand-xl navbar-dark bg-dark">
-					<router-link class="navbar-brand" to="/">
+					<div class="navbar-brand " @click="login = !login;">
 					  	<img src="./assets/logo.svg" alt="" class="w-25 img-fluid">
-					</router-link>
+					</div>
 					<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation"  v-if="login">
 					  	<span	span class="navbar-toggler-icon"></span>
 					</button>
 					<div class="collapse navbar-collapse justify-content-end" id="navbarNavAltMarkup" v-if="login">
 						<div class="navbar-nav">
 							<router-link class="nav-item nav-link" to="/profile">Профиль</router-link>
-							<router-link class="nav-item nav-link" to="/files">Файлы</router-link>
+							<router-link class="nav-item nav-link" to="/">Файлы</router-link>
 							<router-link class="nav-item nav-link" to="/setting">Настройки</router-link>
 						</div>
 					</div>
@@ -113,7 +121,7 @@
 						<button @click="instruction = !instruction" class="btn btn-info w-100 rounded-0">
 							Посмтреть возможности сайта
 						</button>
-						<transition name="slide-fade">
+						<transition mode="out-in" name="slide-fade">
 							<div v-if="instruction" class="text-info p-2 border-left border-right border-info">
 								<p>Функции пользователя: </p>
 								<ul>
@@ -154,8 +162,8 @@
 
 					
 					<div class="mt-4 text-center" v-if="!login">
-						<button class="btn btn-primary" @click="uno_auth()" v-if="!formGroup">Войти</button>
-						<transition name="slide-fade">
+						<transition mode="out-in" name="slide-fade">
+							<button class="btn btn-primary" @click="uno_auth()" v-if="!formGroup">Войти</button>
 							<form v-if="formGroup" class="mt-2">
 								<div class="form-group">
 								  <label for="login">Login</label>
@@ -170,16 +178,13 @@
 								  <input type="checkbox" class="form-check-input" id="registCheck" v-model="regist">
 								  <label class="form-check-label" for="registCheck">Зарегистрироваться</label>
 								</div>
-								<button type="button" class="btn btn-primary" @click="auth()">Вход</button>
+								<button type="button" class="btn btn-primary" @click="[auth(), getListFileByUser()]">Вход</button>
 							  </form>
 						</transition>
 					</div>
 					<div class="pt-4 text-center" v-if="login">
-						<div class="row-fluid">
-							<div class="col"><button class="btn btn-success float-left" @click="uno_addFile()" v-if="!addFile">Добавить файл</button></div>
-							<div class="col"><button class="btn btn-outline-primary float-ritght" @click="reverseLogin()" v-if="!addFile">Выйти из профиля</button></div>
-						</div>
-						<transition name="slide-fade">
+						<transition mode="out-in" name="slide-fade">
+							<button class="btn btn-success float-left" @click="uno_addFile()" v-if="!addFile">Добавить файл</button>
 							<div v-if="addFile" >
 								<div class="c-both m-2">
 									<button class="btn btn-outline-primary" @click="uno_addFile()">Назад</button>
@@ -202,13 +207,19 @@
 							</div>
 						</transition>
 					</div>
+					<div class="text-center c-both mt-4 pt-4" v-if="login">
+						<transition mode="out-in" name="slide-fade">
+							<router-view></router-view>
+						</transition>
+					</div>
+					<button class="btn btn-light text-black font-weight-bold position-absolute exit-btn-location rounded-0" @click="reverseLogin()" v-if="login">Выйти из профиля</button>
 				</div>
 			</main>
 			
 			<footer>
 				<div class="text-center pt-2">
 					<!-- GitHub URL: https://github.com/Fiasko99 -->
-					<span class="font-weight-bold">GitHub: </span>
+					<span class="font-weight-bold text-black">GitHub: </span>
 					<a href="https://github.com/Fiasko99" target="_blank" data-title="Личный гитхаб автора" class="a-response"><img src="./assets/githubicon.svg" alt="ico" class="footer-icon"></a>
 				</div>
 			</footer>
@@ -217,7 +228,37 @@
 
 		<!-- Script -->
 		<script>
+			const profile = {
+				template: '<h1>profile</h1>'
+			}
+			const files = {
+				template: `
+					<h1 class="test">Files</h1>
+				`
+			}
+			const setting = {
+				template: '<h1>setting</h1>'
+			}
+
+			const router = new VueRouter({
+				routes: [
+					{
+						path: '/profile',
+						component: profile
+					},
+					{
+						path: '/',
+						component: files
+					},
+					{
+						path: '/setting',
+						component: setting
+					}
+				]
+			})
+
 			var app = new Vue({
+				router,
 				el: '#myapp',
 				data() {
 					return {
@@ -227,7 +268,7 @@
 						status: false,
 						textMessage: '',
 						file: '',
-						
+						files: [],
 						
 						formGroup: false,
 						login: false,
@@ -238,9 +279,6 @@
 					}
 				},
 				methods: {
-					test: function () { 
-						this.reverseLogin();
-					},
 					uno_addFile: function() {
 						this.addFile = !this.addFile;
 					},
@@ -250,7 +288,7 @@
 					auth: function() {
 						const self = this;
 						if(!this.regist) {
-							axios.get('http://localhost:3000/person?login=' + this.userLogin +"&password=" + this.userPassword)
+							axios.get('http://localhost:3000/users?login=' + this.userLogin +"&password=" + this.userPassword)
 							.then(function(response) {
 								this.userData = response.data;								
 							})
@@ -273,14 +311,16 @@
 						}
 					},
 					reverseLogin: function() {
-						this.login = !this.login;
+						location.reload()
 					},
 					handleFileUpload: function() {
 						this.file = this.$refs.file.files[0];
 					},
 					uploadFile: function(){
-						
+						let self = this;
+						let login = this.userLogin;
 						this.file = this.$refs.file.files[0];
+						let status = this.status ? "private" : "public";
 						
 						let formData = new FormData();
 						formData.append('file', this.file);
@@ -288,19 +328,34 @@
 						 axios.post('ajaxfile.php', formData,
 						{
 						    headers: {
-						        'Content-Type': 'multipart/form-data'
+								'Content-Type': 'multipart/form-data',
+								'login': login
 						    }
 						})
 						.then(function (response) {
-							if(!response.data){
+							if(response.data === 0){
 								alert('File not uploaded.');
+								console.log(response.data);
 							}else{
-								alert('File not uploaded.');
+								let file = {
+									'id_user': response.data[0]['id'],
+									'name_file': self.file.name,
+									'status_file': status,
+									'text': self.textMessage
+								}
+								self.post_new_file(file)
+								alert('File uploaded.');
 							}
 						})
 						.catch(function (error) {
 						    alert(error);
 						});
+					},
+					post_new_file: function(data) {
+						axios.post('http://localhost:3000/files', data)
+						.then(function(response){
+							console.log(response.statusText)
+						})
 					},
 					createFolder: function() {
 						let self = this;
@@ -319,7 +374,7 @@
 										'role': 3
 									}
 
-									axios.post('http://localhost:3000/person', newUser)
+									axios.post('http://localhost:3000/users', newUser)
 									.then(response => (self.login = response.data))
 									.then(function() {
 										alert("Пользователь создан");
@@ -334,9 +389,23 @@
 						} else {
 							alert("Login field is empty")
 						}
+					},
+					getListFileByUser: function() {
+						let self = this;
+						console.log(self.UserLogin)
+						axios.get(`http://localhost:3000/users?login=${self.UserLogin}&role=3`)
+						.then(function(response) {
+							self.getFilesById(response.data[0]['id']);
+						})
+					},
+					getFilesById: function(idUser) {
+						axios.get(`http://localhost:3000/files?id_user=${idUser}`)
+						.then(function(response) {
+							console.log(response.data)
+						})
 					}
 				}
-			})
+			}).$mount('#myapp')
 
 		</script>
 		<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>

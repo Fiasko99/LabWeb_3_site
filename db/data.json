@@ -1,5 +1,5 @@
 {
-  "person": [
+  "users": [
     {
       "id": 1,
       "login": "login",
@@ -55,16 +55,28 @@
       "role": 2
     },
     {
-      "id": 11,
       "login": "nif-nif",
       "password": "wolf",
-      "role": 3
+      "role": 3,
+      "id": 11
     },
     {
-      "login": "naf-naf",
-      "password": "wolf",
+      "login": "test",
+      "password": "test",
       "role": 3,
       "id": 12
+    },
+    {
+      "login": "anya",
+      "password": "123",
+      "role": 3,
+      "id": 13
+    },
+    {
+      "login": "test2",
+      "password": "123",
+      "role": 3,
+      "id": 14
     }
   ],
   "roles": [
@@ -87,10 +99,32 @@
   ],
   "files": [
     {
-      "id_file": 1,
-      "name_file": "load_cat.gif",
+      "id_user": 12,
+      "name_file": "0pjwbCIUGCA.jpg",
       "status_file": "public",
-      "id_user": 11
+      "text": "test",
+      "id": 1
+    },
+    {
+      "id_user": 13,
+      "name_file": "samurai-girl-smoking-11-4k.jpg",
+      "status_file": "private",
+      "text": "я анечка",
+      "id": 2
+    },
+    {
+      "id_user": 14,
+      "name_file": "3c1bb14b79eebea14fe329acfdfcc5ca.jpg",
+      "status_file": "private",
+      "text": "testtext",
+      "id": 3
+    },
+    {
+      "id_user": 14,
+      "name_file": "english 8 октября.docx",
+      "status_file": "private",
+      "text": "my doc",
+      "id": 4
     }
   ]
 }
