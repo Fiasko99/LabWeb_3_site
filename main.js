@@ -16,6 +16,13 @@ var app = new Vue({
             userLogin: '',
             userPassword:'',
             userData: null,
+
+            change: false,
+            delete: false,
+            terms: false,
+            
+            newText: '',
+            newStatus: false,
         }
     },
     methods: {
@@ -144,5 +151,28 @@ var app = new Vue({
                 self.filesList = response.data;
             })
         },
+        changeInfo: function(idItem) {
+            if(this.change === true) {
+                alert(idItem);
+            }
+        },
+        deleteInfo: function(idItem) {
+            if(this.delete === true) {
+                alert(idItem);
+            }
+        },
+        isDisabledChange: function(){
+            return this.delete;
+        },
+        isDisabledDelete: function(){
+            return this.change;
+        },
+        onChange: function() {
+            this.change = !this.change;
+        },
+        onDelete: function() {
+            this.delete = !this.delete;
+        },
+        
     }
 })

@@ -31,9 +31,9 @@
 					</button>
 					<div class="collapse navbar-collapse justify-content-end" id="navbarNavAltMarkup" v-if="login">
 						<div class="navbar-nav">
-							<a href="#" class="nav-item nav-link">Профиль</a>
-							<a href="#" class="nav-item nav-link">Файлы</a>
-							<a href="#" class="nav-item nav-link">Настройки</a>
+							<span class="nav-item nav-link">Профили</span>
+							<span class="nav-item nav-link">Файлы</span>
+							<span class="nav-item nav-link">Настройки</span>
 						</div>
 					</div>
 				</nav>
@@ -128,23 +128,29 @@
 									<label class="form-check-label" for="privateCheck">Сделать приватным</label>
 								</div>
 								<div class="c-both m-2">
-									<button class="btn btn-success" type="button" @click='uploadFile()' v-if="file">Отправить</button>
+									<button class="btn btn-success" type="button" @click='[uploadFile(), getListFileByUser()]' v-if="file">Отправить</button>
 								</div>
 							</div>
 						</transition>
 						<div class="c-both p-4"><hr class="border border-info"></div>
 						<transition mode="out-in" name="slide-fade">
-							<button class="btn btn-info" @click="getListFileByUser()" v-if="!addFile">Обновить</button>
+							<button class="btn btn-info m-4" @click="getListFileByUser()" v-if="!addFile">Обновить</button>
 						</transition>
 						<transition mode="out-in" name="slide-fade">
-							<div class="row border-row" v-if="!addFile">
+							<button class="btn btn-info m-4" @click="onChange()" v-if="!addFile" :disabled='isDisabledChange()'>Изменить</button>
+						</transition>
+						<transition mode="out-in" name="slide-fade">
+							<button class="btn btn-info m-4" @click="onDelete()" v-if="!addFile" :disabled='isDisabledDelete()'>Удалить</button>
+						</transition>
+						<transition mode="out-in" name="slide-fade">
+							<div class="row custom-border" v-if="!addFile">
 								<div class="col-4">Имя файла</div>
 								<div class="col-4">Статус файла</div>
 								<div class="col-4">Текст к файлу</div>
 							</div>
 						</transition>
 						<transition-group mode="out-in" name="slide-fade">
-							<div class="row border-row" v-for="elem in filesList" :key="elem.id" v-if="!addFile">
+							<div class="row custom-border" v-for="elem in filesList" :key="elem.id" v-if="!addFile" @click="[changeInfo(elem.id), deleteInfo(elem.id)]">
 								<div class="col-4">{{ elem.name_file }}</div>
 								<div class="col-4">{{ elem.status_file }}</div>
 								<div class="col-4">{{ elem.text }}</div>
@@ -153,6 +159,7 @@
 					</div>
 					<button class="btn btn-light text-black font-weight-bold position-absolute exit-btn-location rounded-0" @click="reverseLogin()" v-if="login">Выйти из профиля</button>
 				</div>
+
 			</main>
 			
 			<footer>
