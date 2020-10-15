@@ -77,6 +77,12 @@
       "password": "123",
       "role": 3,
       "id": 14
+    },
+    {
+      "login": "pasha",
+      "password": "123",
+      "role": 3,
+      "id": 15
     }
   ],
   "roles": [
@@ -104,27 +110,6 @@
       "status_file": "public",
       "text": "test",
       "id": 1
-    },
-    {
-      "id_user": 13,
-      "name_file": "samurai-girl-smoking-11-4k.jpg",
-      "status_file": "private",
-      "text": "я анечка",
-      "id": 2
-    },
-    {
-      "id_user": 14,
-      "name_file": "3c1bb14b79eebea14fe329acfdfcc5ca.jpg",
-      "status_file": "private",
-      "text": "testtext",
-      "id": 3
-    },
-    {
-      "id_user": 14,
-      "name_file": "english 8 октября.docx",
-      "status_file": "private",
-      "text": "my doc",
-      "id": 4
     }
   ]
 }
