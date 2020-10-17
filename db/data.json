@@ -95,6 +95,12 @@
       "password": "123",
       "role": 3,
       "id": 17
+    },
+    {
+      "login": "alena",
+      "password": "123",
+      "role": 3,
+      "id": 18
     }
   ],
   "roles": [
@@ -143,18 +149,74 @@
       "id": 7
     },
     {
-      "id_user": 13,
-      "name_file": "samurai-girl-smoking-11-4k.jpg",
+      "id_user": 18,
+      "name_file": "0pjwbCIUGCA.jpg",
+      "status_file": "private",
+      "text": "текст",
+      "id": 10
+    },
+    {
+      "id_user": 18,
+      "name_file": "world-of-warcraft--shadowlands-4k-ro-3840x2400.jpg",
       "status_file": "public",
-      "text": "test",
-      "id": 8
+      "text": "текст",
+      "id": 12
     },
     {
       "id_user": 13,
-      "name_file": "0pjwbCIUGCA.jpg",
+      "name_file": "cznR7p3NpEw.jpg",
       "status_file": "private",
-      "text": "test1",
-      "id": 9
+      "text": "adad",
+      "id": 13
+    },
+    {
+      "id_user": 13,
+      "name_file": "1200px-C_Sharp_wordmark.svg.png",
+      "status_file": "public",
+      "text": "newtxt",
+      "id": 14
+    },
+    {
+      "id_user": 20,
+      "name_file": "take_cat.gif",
+      "status_file": "public",
+      "text": "dwad",
+      "id": 15
+    },
+    {
+      "id_user": 20,
+      "name_file": "take_cat.gif",
+      "status_file": "public",
+      "text": "dwad",
+      "id": 16
+    },
+    {
+      "id_user": 13,
+      "name_file": "wrench_head_fix_icon_145915.ico",
+      "status_file": "private",
+      "text": "dawd",
+      "id": 17
+    },
+    {
+      "id_user": 13,
+      "name_file": "fon.png",
+      "status_file": "public",
+      "text": "зтп",
+      "id": 18
+    },
+    {
+      "id_user": 13,
+      "name_file": "head_fon.png",
+      "status_file": "public",
+      "text": "зтп",
+      "id": 19
+    },
+    {
+      "id_user": 13,
+      "name_file": "S2.zip",
+      "status_file": "public",
+      "text": "adaed",
+      "id": 20
     }
   ]
 }
